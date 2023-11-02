@@ -1,3 +1,4 @@
+'''{r}
 library(zoo)
 library(lubridate)
 library(dplyr)
@@ -249,3 +250,4 @@ banvt2yil <- banvt2yil %>%
 outliers_banvt <- banvt2yil[banvt2yil$outlier == "Outlier", ]
 outliers_banvt
 
+'''
