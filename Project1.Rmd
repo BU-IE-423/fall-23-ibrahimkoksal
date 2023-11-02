@@ -1,0 +1,87 @@
+---
+title: "Project 1"
+author: "İbrahim Emre Köksal"
+date: "02/10/2023"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Part 1
+
+'''{r}
+library(zoo)
+library(lubridate)
+library(dplyr)
+library(ggplot2)
+# Assuming your DataFrame is named "data" and the timestamp column is named "timestamp"
+
+data <- read.csv("Desktop/all_ticks_wide.csv.gz",sep = ",")
+'''
+
+# Project 1
+
+##Introduction
+
+For the sake of the analysis, the data in the wide format is chosen where rows represent date & time and columns represent different stocks. In this structure, closing prices of the same stock in different moments of time are listed in the same column. This version is chosen since this structure makes it easier to carry out operations such as filtering, aggregating and transforming on large amounts of data. 
+
+###Results:
+
+####AKBNK
+
+'''{r}
+#AKBANK
+# Assuming your DataFrame is named "data" and the timestamp column is named "timestamp"
+akbank <- data[,c("timestamp","AKBNK")]
+akbank2yil <- akbank[1883:22132,]
+akbank2yil$AKBNK <- na.approx(akbank2yil$AKBNK)
+
+# A function to approximate nas in data
+sum(is.na(akbank2yil$timestamp))
+
+# Extract the month and year
+akbank2yil <- akbank2yil %>%
+  mutate(year = year(timestamp), month = month(timestamp))
+
+# Create separate boxplots for each combination of month and year
+ggplot(akbank2yil, aes(x = factor(month, labels = month.abb), y = AKBNK)) +
+  geom_boxplot() +
+  labs(x = "Month", y = "AKBNK") +
+  facet_wrap(~year, scales = "free_x")
+
+# Assuming your DataFrame is named "akbank2yil" with columns "timestamp" and "AKBNK"
+akbank2yil <- akbank2yil %>%
+  mutate(timestamp = ymd_hms(timestamp, tz = "UTC")) %>%
+  mutate(year = year(timestamp), month = month(timestamp))
+
+
+# Group by year and month, calculate mean and standard deviation
+monthly_summary <- akbank2yil %>%
+  group_by(year, month, .groups = "drop") %>%
+  summarize(
+    mean_value = mean(AKBNK, na.rm = TRUE),
+    sd_value = sd(AKBNK, na.rm = TRUE)
+  )
+
+# Flag outliers based on the 3-sigma rule
+akbank2yil <- akbank2yil %>%
+  left_join(monthly_summary, by = c("year", "month")) %>%
+  mutate(outlier = ifelse(AKBNK < (mean_value - 3 * sd_value) | AKBNK > (mean_value + 3 * sd_value), "Outlier", "Not Outlier"))
+outliers_akbank <- akbank2yil[akbank2yil$outlier == "Outlier", ]
+outliers_akbank
+'''
+
+The decline at the end of 2013 in Akbank stock prices is likely due to a number of factors including the global financial crisis, the political uncertainty in Turkey, and the depreciation of the Turkish lira. In 2013, a total of 418 million dollars of net foreign outflow was observed from the Borsa Istanbul. The highest net sales by foreign investors were in the Banking Index, with 1.221 billion dollars. Foreign investors who had 20% share in the total trading volume of the BIST all, held a 66% share in the market value at the end of 2012, but this share fell to 63% at the end of 2013. The Borsa Istanbul, which finished 2012 as the second-best performing stock market in the world, ended 2013 with a 23% decline in market value in dollar terms, diverging negatively from global markets. (https://www.bloomberght.com/haberler/haber/1495099-bistten-2013te-418-milyon-dolar-yabanci-cikisi-oldu)
+
+In 2013, Turkey was facing several foreign policy issues due to the civil war in Syria, the war in Libya and the emergence of Islamic State of Iraq and Syria (ISIS). As a result of the combined effects of these variables, Turkey experienced a significant degree of political uncertainty. Foreign investors started liquidating their holdings in Turkey because they were concerned about the government's capacity to handle the country's economic and foreign policy issues. The Turkish currency and the Borsa Istanbul stock market both declined as a result of this. 
+
+In May 2013, large scale protests broke out first in Istanbul and then other cities in opposition to a government plan to renovate Taksim district’s popular public space, Gezi Parkı. The effect of this can also be observed in the decrease of the average stock price values after may. The trend graph for the word “gezi” shows the huge increase in the search amount around May 2013: 
+
+The 24th general elections of the Republic of Turkey were held on June 7, 2015 to determine the new members of the Turkish Grand National Assembly. The result of these elections can be a possible reason for the decline of Akbank’s stock prices starting from June 2015. In these elections, AKP, which had governed Turkey since 2002, lost its majority in parliament for the first time. Due to this, investors sold up their Turkish assets as the political and economic image in Turkey became unstable. The trend for the word “genel seçim” can be observed in the following graph:
+
+
