@@ -1,4 +1,4 @@
-
+```{r}
 library(zoo)
 library(lubridate)
 library(dplyr)
@@ -249,4 +249,4 @@ banvt2yil <- banvt2yil %>%
   mutate(outlier = ifelse(BANVT < (mean_value - 3 * sd_value) | BANVT > (mean_value + 3 * sd_value), "Outlier", "Not Outlier"))
 outliers_banvt <- banvt2yil[banvt2yil$outlier == "Outlier", ]
 outliers_banvt
-
+```
