@@ -13,7 +13,7 @@ akbank <- data[,c("timestamp","AKBNK")]
 akbank2yil <- akbank[1883:22132,]
 akbank2yil$AKBNK <- na.approx(akbank2yil$AKBNK)
 
-# A function to approximate na's in data
+# A function to approximate nas in data
 sum(is.na(akbank2yil$timestamp))
 
 # Extract the month and year
@@ -53,7 +53,7 @@ garan <- data[,c("timestamp","GARAN")]
 garan2yil <- garan[1883:22132,]
 garan2yil$GARAN <- na.approx(garan2yil$GARAN)
 
-# A function to approximate na's in data
+# A function to approximate nas in data
 sum(is.na(garan2yil$timestamp))
 
 # Extract the month and year
@@ -94,7 +94,7 @@ asels <- data[,c("timestamp","ASELS")]
 asels2yil <- asels[22134:45588,]
 asels2yil$ASELS <- na.approx(asels2yil$ASELS)
 
-# A function to approximate na's in data
+# A function to approximate nas in data
 sum(is.na(asels2yil$timestamp))
 
 # Extract the month and year
@@ -135,7 +135,7 @@ pgsus <- data[,c("timestamp","PGSUS")]
 pgsus2yil <- pgsus[22134:45588,]
 pgsus2yil$PGSUS <- na.approx(pgsus2yil$PGSUS)
 
-# A function to approximate na's in data
+# A function to approximate nas in data
 sum(is.na(pgsus2yil$timestamp))
 
 # Extract the month and year
@@ -175,7 +175,7 @@ thyao <- data[,c("timestamp","THYAO")]
 thyao2yil <- thyao[22134:45588,]
 thyao2yil$THYAO <- na.approx(thyao2yil$THYAO)
 
-# A function to approximate na's in data
+# A function to approximate nas in data
 sum(is.na(thyao2yil$timestamp))
 
 # Extract the month and year
@@ -215,7 +215,7 @@ banvt <- data[,c("timestamp","BANVT")]
 banvt2yil <- banvt[22134:45588,]
 banvt2yil$BANVT <- na.approx(banvt2yil$BANVT)
 
-# A function to approximate na's in data
+# A function to approximate nas in data
 sum(is.na(banvt2yil$timestamp))
 
 # Extract the month and year
