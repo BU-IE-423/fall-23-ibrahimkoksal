@@ -4,4 +4,4 @@ This is the index page of the course IE 423's progress journal. <br>
 
 This is the HTML Link for Project1: [Project 1](https://bu-ie-423.github.io/fall-23-ibrahimkoksal/423%20html/vertopal.com_423_son.html)
 
-This is the HTML Link for Project1: [Project 1]()
+This is the HTML Link for Project1: [Project 2](https://github.com/BU-IE-423/fall-23-ibrahimkoksal/423%20part2/Part2.html)
